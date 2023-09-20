@@ -29,18 +29,15 @@ def book_reservation_at_time(target_time_to_book):
             # find booking spot & click on reservation
             xpath_expr = f'(//td[normalize-space(text())="{target_time_short}"])[6]/following-sibling::td/a'
             driver.find_element(By.XPATH, xpath_expr).click()
-            #find my tennis partner
+            # find my tennis partner
             dropdown = Select(driver.find_element(By.ID, "ddlPartenaire0"))
             dropdown.select_by_value("53450")
-            #Confirm reservation
+            # Confirm reservation
             driver.find_element(By.ID, "linkConfirmer").click()
             break
         if current_time < verify_time:
             time.sleep(5)  # check every 5 seconds
 
-
-driver = webdriver.Edge()
-driver.get('https://secure.sas.ulaval.ca/rtpeps/Account/Login')
 
 target_time = '20:30:00'  # target time here
 target_datetime = datetime.datetime.strptime(target_time, '%H:%M:%S')
@@ -49,9 +46,24 @@ target_time_short = datetime.datetime.strptime(target_time, '%H:%M')
 verify_dateTime = target_datetime - datetime.timedelta(seconds=10)
 verify_time = verify_dateTime.strftime('%H:%M:%S')
 
+startTime = datetime.datetime.now()
+driver = webdriver.Edge()
+driver.get('https://secure.sas.ulaval.ca/rtpeps/Account/Login')
 open_website_and_login()
+stopTime = datetime.datetime.now()
+
+# Calculate total seconds
+total_seconds = int((stopTime - stopTime).total_seconds())
+
+# Calculate minutes and seconds
+minutes = total_seconds // 60
+seconds = total_seconds % 60
+
+# Format the string
+totalTime = f"{minutes} min and {seconds} sec"
 
 # Save Result to Logs
-file = open(r'C:\Users\Xavier\OneDrive - Concordia University - Canada\TennisBot\results\logs.txt', 'a');
-file.write(f'{datetime.datetime.now()} - The script ran. Reservation was booked for '
-           f'{datetime.datetime.now() + datetime.timedelta(hours=70)}')
+file = open(r'C:\Users\Xavier\OneDrive - Concordia University - Canada\TennisBot\results\logs.txt', 'a')
+file.write(f"{datetime.datetime.now()} - The script ran. Reservation was booked for "
+           f"{(datetime.datetime.now() + datetime.timedelta(hours=70)).strftime('%Y-%m-%d %H:%M')}."
+           f" The time taken for the bot was {totalTime}")
