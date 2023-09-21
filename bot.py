@@ -27,7 +27,8 @@ def book_reservation_at_time(target_time_to_book):
         current_time = datetime.datetime.now().strftime('%H:%M:%S')
         if current_time >= target_time_to_book:
             # find booking spot & click on reservation
-            xpath_expr = f'(//td[normalize-space(text())="{target_time_short}"])[3]/following-sibling::td/a'
+            xpath_expr = (f'//tr[td[2][normalize-space(.)="{target_time_short}"]]'
+                          f'[td[4][normalize-space(.)="{courtLetter}"]]/td[5]/a')
             driver.find_element(By.XPATH, xpath_expr).click()
             # find my tennis partner
             dropdown = Select(driver.find_element(By.ID, "ddlPartenaire0"))
@@ -39,18 +40,21 @@ def book_reservation_at_time(target_time_to_book):
             time.sleep(5)  # check every 5 seconds
 
 
+# Declare variables
+courtLetter = 'D'  # court letter
 target_time = '18:30:00'  # target time here
-target_datetime = datetime.datetime.strptime(target_time, '%H:%M:%S')
-target_time_short = datetime.datetime.strptime(target_time, '%H:%M:%S').strftime('%H:%M')
+
+target_datetime = datetime.datetime.strptime(target_time, '%H:%M:%S')  # convert target_time to string with seconds
+target_time_short = datetime.datetime.strptime(target_time, '%H:%M:%S').strftime('%H:%M')  # convert to string
 # Subtract 10 seconds from the parsed datetime
 verify_dateTime = target_datetime - datetime.timedelta(seconds=10)
-verify_time = verify_dateTime.strftime('%H:%M:%S')
+verify_time = verify_dateTime.strftime('%H:%M:%S')  # convert to string
 
-startTime = datetime.datetime.now()
-driver = webdriver.Edge()
-driver.get('https://secure.sas.ulaval.ca/rtpeps/Account/Login')
-open_website_and_login()
-stopTime = datetime.datetime.now()
+startTime = datetime.datetime.now()  # start timer
+driver = webdriver.Edge()  # initialize driver to use Edge
+driver.get('https://secure.sas.ulaval.ca/rtpeps/Account/Login')  # access desired web page
+open_website_and_login()  # call function
+stopTime = datetime.datetime.now()  # stop timer
 
 # Calculate total seconds
 seconds = int((stopTime - startTime).total_seconds())
@@ -58,7 +62,7 @@ seconds = int((stopTime - startTime).total_seconds())
 # Format the string
 totalTime = f"{seconds} sec"
 
-# Save Result to Logs
+# Save result to logs
 file = open(r'C:\Users\Xavier\OneDrive - Concordia University - Canada\TennisBot\results\logs.txt', 'a')
 file.write(f"{datetime.datetime.now()} - The script ran. Reservation was booked for "
            f"{(datetime.datetime.now() + datetime.timedelta(hours=70)).strftime('%Y-%m-%d ') + target_time_short}."
