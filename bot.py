@@ -66,4 +66,4 @@ totalTime = f"{seconds} sec"
 file = open(r'C:\Users\Xavier\OneDrive - Concordia University - Canada\TennisBot\results\logs.txt', 'a')
 file.write(f"{datetime.datetime.now()} - The script ran. Reservation was booked for "
            f"{(datetime.datetime.now() + datetime.timedelta(hours=70)).strftime('%Y-%m-%d ') + target_time_short}."
-           f" The time taken for the bot was {totalTime}\n")
+           f" The time taken for the bot was {totalTime} and it stopped at: {stopTime.strftime('%H:%M:%S')}.\n")
