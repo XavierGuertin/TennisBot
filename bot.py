@@ -18,7 +18,7 @@ def open_website_and_login():
     # Find & Click on the 4th day available
     driver.find_element(By.XPATH, '//*[@id="formDate"]/div[2]/div[4]/a/div').click()
     # Find & Click on the tennis activity
-    driver.find_element(By.XPATH, '//a[@href="/rtpeps/Reservation/Disponibilites?selectedActivite=Tennis "]').click()
+    driver.find_element(By.XPATH, '//a[@href="/rtpeps/Reservation/Disponibilites?selectedActivite=Tennis"]').click()
     book_reservation_at_time(target_time)
 
 
@@ -41,8 +41,8 @@ def book_reservation_at_time(target_time_to_book):
 
 
 # Declare variables
-courtLetter = 'D'  # court letter
-target_time = '18:30:00'  # target time here
+courtLetter = 'C'  # court letter
+target_time = '11:30:00'  # target time here
 
 target_datetime = datetime.datetime.strptime(target_time, '%H:%M:%S')  # convert target_time to string with seconds
 target_time_short = datetime.datetime.strptime(target_time, '%H:%M:%S').strftime('%H:%M')  # convert to string
